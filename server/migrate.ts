@@ -10,7 +10,7 @@ if (process.env.NODE_ENV == 'production') {
     config({ path: '.prod.env' });
 } else {
     console.log('Running in development mode.')
-    config: ({ path: '.env' })
+    config: ({ path: '.dev.env' })
 }
 
 const DATABASE_URL  = process.env.DATABASE_URL;
