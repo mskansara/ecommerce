@@ -1,5 +1,5 @@
 import { doublePrecision, integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core'
-
+import { InferModel } from 'drizzle-orm';
 export const products = pgTable('products', {
     id: serial('id').primaryKey(),
     productName: varchar('product_name', {length: 100}).notNull(),
@@ -24,3 +24,6 @@ export const order_items = pgTable('order_items', {
     total: doublePrecision('total').default(0)
 });
 
+export type Product = InferModel<typeof products>;
+export type Order = InferModel<typeof orders>;
+export type OrderItem = InferModel<typeof order_items>;
