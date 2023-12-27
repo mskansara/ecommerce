@@ -45,3 +45,23 @@ export async function fetchProductDetails(productId: number): Promise<Product | 
       return null;
     }
 }
+
+export async function createOrder(orderData: CreateOrder): Promise<Order | null> {
+    try {
+      const response = await fetch(`${API_URL}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to fetch order details.');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+      return null;
+    }
+  }

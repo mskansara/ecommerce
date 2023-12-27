@@ -51,7 +51,7 @@ const ProductDetails = ({route}: ProductsDetailsPageProp) => {
                     <Image style={styles.productImage} source={{uri: product.product_image}}/>
                     <Text style={styles.productName}>{product.product_name}</Text>
                     <Text style={styles.productCategory}>{product.product_category}</Text>
-                    <Text style={styles.productPrice}>{product.product_price}</Text>
+                    <Text style={styles.productPrice}>${product.product_price}</Text>
                     <Text style={styles.productDescription}>{product.product_description}</Text>
 
                     <View style={styles.buttonsContainer}>
