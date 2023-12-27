@@ -1,17 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { ProductsDetailsPageProp } from "../Navigation/ProductsStack";
 import { Product, fetchProductDetails } from "../api/api";
+import useCartStore from "../state/cartStore";
+import { Ionicons } from '@expo/vector-icons';
+import CartButton from "../components/CartButton";
 
 const ProductDetails = ({route}: ProductsDetailsPageProp) => {
     const { id } = route.params;
     const [product, setProduct] = useState<Product | null>(null)
+
+    const { products, addProduct, reduceProduct } = useCartStore((state) => ({
+        products: state.products,
+        addProduct: state.addProduct,
+        reduceProduct: state.reduceProduct
+    }));
+
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        
+        updateProductQuantity();
+    }, [products])
+    
     useEffect(() => {
         try{
             const fetchProduct = async () => {
                 const productData = await fetchProductDetails(id);
                 setProduct(productData);
-                console.log(productData);
             }
             fetchProduct();
         } catch(error) {
@@ -19,20 +35,39 @@ const ProductDetails = ({route}: ProductsDetailsPageProp) => {
         }
     },[]);
 
+    const updateProductQuantity = () => {
+        const result = products.filter(p => p.id === id)
+        if (result.length > 0) {
+            setCount(result[0].quantity)
+        } else {
+            setCount(0)
+        }
+    }
+
     return (
         <View style={styles.container}>
             {product && (
                 <>
                     <Image style={styles.productImage} source={{uri: product.product_image}}/>
-                    <Text style={styles.productName}>{product.productName}</Text>
+                    <Text style={styles.productName}>{product.product_name}</Text>
                     <Text style={styles.productCategory}>{product.product_category}</Text>
                     <Text style={styles.productPrice}>{product.product_price}</Text>
                     <Text style={styles.productDescription}>{product.product_description}</Text>
+
+                    <View style={styles.buttonsContainer}>
+                        <TouchableOpacity style={styles.button} onPress={() => reduceProduct(product)}>
+                            <Ionicons name="remove" size={24} color={'#0096FF'} />
+                        </TouchableOpacity>
+
+                        <Text style={styles.quantity}>{count}</Text>
+
+                        <TouchableOpacity style={styles.button} onPress={() => addProduct(product)}>
+                            <Ionicons name="add" size={24} color={'#0096FF'} />
+                        </TouchableOpacity>
+                    </View>
                 </>
             )}
-
-            
-
+            <CartButton/>
         </View>
     );
 }
@@ -79,7 +114,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         flex: 1,
-        borderColor: '#1FE687',
+        borderColor: '#0096FF',
         borderWidth: 2,
       },
       quantity: {

@@ -14,7 +14,7 @@ const useCartStore = create<CartState>((set) => ({
     total:0,
     addProduct: (product: Product) => 
         set((state) => {
-                return null
+                
                 const hasProduct = state.products.find((p) => p.id === product.id)
                 state.total += product.product_price;
                 if (hasProduct) {

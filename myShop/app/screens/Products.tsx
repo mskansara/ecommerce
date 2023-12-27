@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, ListRenderItem, Ima
 import { Product, fetchProducts } from "../api/api";
 import { ProductsPageProp } from "../Navigation/ProductsStack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CartButton from "../components/CartButton"
 
 const Products = ({navigation}: ProductsPageProp) => {
     const [products, setProducts] = useState([]);
@@ -23,7 +24,7 @@ const Products = ({navigation}: ProductsPageProp) => {
                 onPress={()=>navigation.navigate('ProductDetails', {id: item.id})}
             >
                 <Image style={styles.productImage} source={{uri: item.product_image}}/>
-                <Text style={styles.productName}>{item.productName}</Text>
+                <Text style={styles.productName}>{item.product_name}</Text>
                 <Text style={styles.productPrice}>${item.product_price}</Text>
             </TouchableOpacity>
         )
@@ -36,6 +37,7 @@ const Products = ({navigation}: ProductsPageProp) => {
                 keyExtractor={(item) => item.id}
                 numColumns={2}
             />
+            <CartButton/>
         </View>
     )
 }

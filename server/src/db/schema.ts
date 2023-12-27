@@ -2,7 +2,7 @@ import { doublePrecision, integer, pgTable, serial, text, varchar } from 'drizzl
 import { InferModel } from 'drizzle-orm';
 export const products = pgTable('products', {
     id: serial('id').primaryKey(),
-    productName: varchar('product_name', {length: 100}).notNull(),
+    product_name: varchar('product_name', {length: 100}).notNull(),
     product_category: varchar('product_category', { length: 100 }).notNull(),
     product_description: text('product_description').notNull(),
     product_price: doublePrecision('product_price').notNull(),
